@@ -1,0 +1,41 @@
+---
+- name: libevent
+  hosts: localhost
+  tags:
+    - dependencies
+  tasks:
+    - name: Clone libevent
+      ansible.builtin.git:
+        repo: 'https://github.com/libevent/libevent.git'
+        dest: "{{ [distfiles_dir, 'libevent'] | path_join }}"
+        depth: 1
+        single_branch: true
+        version: 112421c8fa4840acd73502f2ab6a674fc025de37
+
+    - name: Create build directory
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
+        state: directory
+
+    - name: Invoke cmake
+      ansible.builtin.command:
+        cmd: cmake ..
+        creates: "{{ [distfiles_dir, 'libevent', 'build', 'Makefile'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
+
+    - name: Build libevent
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
+
+    - name: Verify built artifacts
+      community.general.make:
+        target: verify
+        chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
+      tags:
+        - verify
+
+    - name: Install libevent
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
+      become: true
