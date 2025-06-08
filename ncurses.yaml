@@ -1,0 +1,36 @@
+---
+- name: ncurses
+  hosts: localhost
+  tags:
+    - dependencies
+  tasks:
+    - name: Download archive
+      ansible.builtin.get_url:
+        url: https://invisible-mirror.net/archives/ncurses/ncurses-6.5.tar.gz
+        dest: "{{ [distfiles_dir, 'ncurses-6.5.tar.gz'] | path_join }}"
+        checksum: sha256:136d91bc269a9a5785e5f9e980bc76ab57428f604ce3e5a5a90cebc767971cc6
+
+    - name: Unpack archive
+      ansible.builtin.unarchive:
+        src: "{{ [distfiles_dir, 'ncurses-6.5.tar.gz'] | path_join }}"
+        dest: "{{ [distfiles_dir] | path_join }}"
+
+    - name: Remove archive
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'ncurses-6.5.tar.gz'] | path_join }}"
+        state: absent
+
+    - name: Configure
+      ansible.builtin.command:
+        cmd: ./configure CC=gcc CXX=false --prefix=/usr/local --with-shared --without-normal --without-debug
+        chdir: "{{ [distfiles_dir, 'ncurses-6.5'] | path_join }}"
+
+    - name: Build
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'ncurses-6.5'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'ncurses-6.5'] | path_join }}"
+      become: true
