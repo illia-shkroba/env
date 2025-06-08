@@ -1,0 +1,16 @@
+---
+- name: starship
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'git@github.com:starship/starship.git'
+        dest: "{{ [distfiles_dir, 'starship'] | path_join }}"
+        single_branch: true
+        version: 29620fde80e1706f40cbdf06c52f220436d7ba0d
+
+    - name: Install
+      ansible.builtin.command:
+        cmd: ./install/install.sh --yes
+        chdir: "{{ [distfiles_dir, 'starship'] | path_join }}"
+      become: true
