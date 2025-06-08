@@ -1,0 +1,37 @@
+---
+- name: fzf
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/junegunn/fzf.git'
+        dest: "{{ [distfiles_dir, 'fzf'] | path_join }}"
+        single_branch: true
+        version: 44ddab881ee337d11db9203ce28996cde33207d8
+
+    - name: Install
+      ansible.builtin.command:
+        cmd: ./install --key-bindings --completion --no-update-rc
+        chdir: "{{ [distfiles_dir, 'fzf'] | path_join }}"
+      become: true
+
+    - name: Copy binaries
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzf', 'bin'] | path_join }}/"
+        dest: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
+
+    - name: Copy manual
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzf', 'man', 'man1'] | path_join }}/"
+        dest: "{{ ['/', 'usr', 'share', 'man', 'man1'] | path_join }}"
+        mode: 'u=rw,g=r,o=r'
+      become: true
+
+    - name: Copy keybindings
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzf', 'shell'] | path_join }}/"
+        dest: "{{ ['/', 'usr', 'share', 'fzf'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
