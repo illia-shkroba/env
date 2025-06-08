@@ -1,0 +1,30 @@
+---
+- name: tmux
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/tmux/tmux.git'
+        dest: "{{ [distfiles_dir, 'tmux'] | path_join }}"
+        single_branch: true
+        version: 1dbceaa790f584b09855005bcfd11297a820f88a
+
+    - name: Autogen
+      ansible.builtin.command:
+        cmd: ./autogen.sh
+        chdir: "{{ [distfiles_dir, 'tmux'] | path_join }}"
+
+    - name: Configure
+      ansible.builtin.command:
+        cmd: ./configure
+        chdir: "{{ [distfiles_dir, 'tmux'] | path_join }}"
+
+    - name: Build
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'tmux'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'tmux'] | path_join }}"
+      become: true
