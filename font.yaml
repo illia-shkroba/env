@@ -1,0 +1,15 @@
+---
+- name: font
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/JetBrains/JetBrainsMono.git'
+        dest: "{{ [distfiles_dir, 'font'] | path_join }}"
+        single_branch: true
+        version: 19371302b95d218af43299bce79ddbddd0bc364d
+
+    - name: Install
+      ansible.builtin.command:
+        cmd: ./install_manual.sh
+        chdir: "{{ [distfiles_dir, 'font'] | path_join }}"
