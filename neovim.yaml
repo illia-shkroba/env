@@ -2,20 +2,20 @@
 - name: neovim
   hosts: localhost
   tasks:
-    - name: Clone neovim
+    - name: Clone
       ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         single_branch: true
         version: 33b0a004eb20fd5a0013b832414596190c059828
 
-    - name: Make neovim
+    - name: Make
       community.general.make:
         chdir: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         params:
           CMAKE_BUILD_TYPE: Release
 
-    - name: Install neovim
+    - name: Install
       community.general.make:
         chdir: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         target: install

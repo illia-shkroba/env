@@ -4,7 +4,7 @@
   tags:
     - dependencies
   tasks:
-    - name: Clone libevent
+    - name: Clone
       ansible.builtin.git:
         repo: 'https://github.com/libevent/libevent.git'
         dest: "{{ [distfiles_dir, 'libevent'] | path_join }}"
@@ -23,7 +23,7 @@
         creates: "{{ [distfiles_dir, 'libevent', 'build', 'Makefile'] | path_join }}"
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
 
-    - name: Build libevent
+    - name: Build
       community.general.make:
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
 
@@ -34,7 +34,7 @@
       tags:
         - verify
 
-    - name: Install libevent
+    - name: Install
       community.general.make:
         target: install
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
