@@ -1,0 +1,28 @@
+---
+- name: fzf
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/Aloxaf/fzf-tab.git'
+        dest: "{{ [distfiles_dir, 'fzf-tab'] | path_join }}"
+        single_branch: true
+        version: 2abe1f2f1cbcb3d3c6b879d849d683de5688111f
+
+    - name: Create root directory
+      ansible.builtin.file:
+        path: "{{ ['/', 'usr', 'share', 'zsh', 'plugins', 'fzf-tab'] | path_join }}"
+        state: directory
+      become: true
+
+    - name: Install lib
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzf-tab', 'lib'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'share', 'zsh', 'plugins', 'fzf-tab'] | path_join }}"
+      become: true
+
+    - name: Install script
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzf-tab', 'fzf-tab.zsh'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'share', 'zsh', 'plugins', 'fzf-tab'] | path_join }}"
+      become: true
