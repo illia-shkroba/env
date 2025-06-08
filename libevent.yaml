@@ -23,6 +23,11 @@
         creates: "{{ [distfiles_dir, 'libevent', 'build', 'Makefile'] | path_join }}"
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
 
+    - name: Cleanup cmake artifacts
+      ansible.builtin.file:
+        path: "{{ [lookup('ansible.builtin.env', 'HOME'), '.cmake'] | path_join }}"
+        state: absent
+
     - name: Build
       community.general.make:
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
