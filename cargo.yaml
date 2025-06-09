@@ -1,0 +1,21 @@
+---
+- name: cargo
+  hosts: localhost
+  tasks:
+    - name: Create rustup directory
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'rustup'] | path_join }}"
+        state: directory
+
+    - name: Download rustup
+      ansible.builtin.get_url:
+        url: https://sh.rustup.rs
+        dest: "{{ [distfiles_dir, 'rustup', 'rustup.sh'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+        checksum: sha256:17247e4bcacf6027ec2e11c79a72c494c9af69ac8d1abcc1b271fa4375a106c2
+
+    - name: Run rustup
+      ansible.builtin.command:
+        cmd: ./rustup.sh -y
+        creates: "{{ [lookup('env', 'XDG_DATA_HOME'), 'cargo'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'rustup'] | path_join }}"
