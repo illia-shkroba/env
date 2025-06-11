@@ -1,0 +1,35 @@
+---
+- name: fastfetch
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/fastfetch-cli/fastfetch.git'
+        dest: "{{ [distfiles_dir, 'fastfetch'] | path_join }}"
+        depth: 1
+        single_branch: true
+        version: 1e32a95f83ad0ec1037edb71a2fe86b7a975821a
+
+    - name: Create build directory
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'fastfetch', 'build'] | path_join }}"
+        state: directory
+
+    - name: Invoke cmake
+      ansible.builtin.command:
+        cmd: cmake ..
+        creates: "{{ [distfiles_dir, 'fastfetch', 'build', 'Makefile'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'fastfetch', 'build'] | path_join }}"
+
+    - name: Build
+      ansible.builtin.command:
+        cmd: cmake --build . --target fastfetch
+        creates: "{{ [distfiles_dir, 'fastfetch', 'build', 'fastfetch'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'fastfetch', 'build'] | path_join }}"
+
+    - name: Install
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fastfetch', 'build', 'fastfetch'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
