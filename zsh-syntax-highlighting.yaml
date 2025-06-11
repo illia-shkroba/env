@@ -1,0 +1,23 @@
+---
+- name: zsh-syntax-highlighting
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
+        dest: "{{ [distfiles_dir, 'zsh-syntax-highlighting'] | path_join }}"
+        single_branch: true
+        version: 5eb677bb0fa9a3e60f0eff031dc13926e093df92
+
+    - name: Build
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'zsh-syntax-highlighting'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'zsh-syntax-highlighting'] | path_join }}"
+        params:
+          PREFIX: "{{ ['/', 'usr'] | path_join }}"
+          SHARE_DIR: "{{ ['/', 'usr', 'share', 'zsh', 'plugins', 'zsh-syntax-highlighting'] | path_join }}"
+      become: true
