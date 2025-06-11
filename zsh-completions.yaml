@@ -1,0 +1,33 @@
+---
+- name: zsh-completions
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-completions.git'
+        dest: "{{ [distfiles_dir, 'zsh-completions'] | path_join }}"
+        single_branch: true
+        version: c29efd0bc3927ab25dc93ad4085d7143881b73f0
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ ['/', 'usr', 'share', 'zsh', 'site-functions'] | path_join }}"
+        - "{{ ['/', 'usr', 'share', 'doc', 'zsh-completions'] | path_join }}"
+      become: true
+
+    - name: Copy sources
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'zsh-completions', 'src'] | path_join }}/"
+        dest: "{{ ['/', 'usr', 'share', 'zsh', 'site-functions'] | path_join }}"
+        mode: 'u=rw,g=r,o=r'
+      become: true
+
+    - name: Copy manual
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'zsh-completions', 'README.md'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'share', 'doc', 'zsh-completions'] | path_join }}"
+        mode: 'u=rw,g=r,o=r'
+      become: true
