@@ -1,0 +1,25 @@
+---
+- name: btop
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/aristocratos/btop.git'
+        dest: "{{ [distfiles_dir, 'btop'] | path_join }}"
+        single_branch: true
+        version: 1b0b89212e7e05ea3d4a1d7ec7596bf1b9224193
+
+    - name: Build
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'btop'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'btop'] | path_join }}"
+      become: true
+
+    - name: Cleanup
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'btop', 'bin'] | path_join }}"
+        state: absent
