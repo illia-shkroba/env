@@ -1,0 +1,23 @@
+---
+- name: dzen2
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/minos-org/dzen2.git'
+        dest: "{{ [distfiles_dir, 'dzen2'] | path_join }}"
+        single_branch: true
+        version: 7aaa79b3f3b6e6a87ef46cf77eb18a9c42967b10
+
+    - name: Install
+      community.general.make:
+        targets:
+          - clean
+          - install
+        chdir: "{{ [distfiles_dir, 'dzen2'] | path_join }}"
+      become: true
+
+    - name: Cleanup
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'dzen2', 'dzen2'] | path_join }}"
+        state: absent
