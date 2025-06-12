@@ -1,5 +1,5 @@
 ---
-- name: fzf
+- name: fzf-tab
   hosts: localhost
   tasks:
     - name: Clone
