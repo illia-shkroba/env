@@ -9,4 +9,8 @@
         version: d64c8606a54e4892c251514f5673e42c4f9c5051
         package_name: ast-grep
         build_root: ['crates', 'cli']
-        executable: ast-grep
+        completions:
+          executable: ast-grep
+          args:
+            - completions
+            - zsh
