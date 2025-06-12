@@ -1,0 +1,26 @@
+---
+- name: Clone
+  ansible.builtin.git:
+    repo: "{{ url }}"
+    dest: "{{ [distfiles_dir, repo_dir] | path_join }}"
+    single_branch: true
+    version: "{{ version }}"
+
+- name: Install
+  community.general.cargo:
+    name: "{{ package_name }}"
+    directory: "{{ ([distfiles_dir, repo_dir] + build_root) | path_join }}"
+    locked: true
+    path: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo'] | path_join }}"
+
+- name: Generate completions
+  ansible.builtin.command:
+    cmd: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo', 'bin', executable] | path_join }} completions zsh"
+  register: completions
+
+- name: Install completions
+  ansible.builtin.copy:
+    content: "{{ completions.stdout }}"
+    dest: "{{ ['/', 'usr', 'share', 'zsh', 'site-functions', '_' + executable] | path_join }}"
+    mode: 'u=rw,g=r,o=r'
+  become: true

@@ -1,29 +1,12 @@
 ---
 - name: ast-grep
   hosts: localhost
-  tasks:
-    - name: Clone
-      ansible.builtin.git:
-        repo: 'https://github.com/ast-grep/ast-grep.git'
-        dest: "{{ [distfiles_dir, 'ast-grep'] | path_join }}"
-        single_branch: true
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/ast-grep/ast-grep.git'
+        repo_dir: ast-grep
         version: d64c8606a54e4892c251514f5673e42c4f9c5051
-
-    - name: Install
-      community.general.cargo:
-        name: ast-grep
-        directory: "{{ [distfiles_dir, 'ast-grep', 'crates', 'cli'] | path_join }}"
-        locked: true
-        path: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo'] | path_join }}"
-
-    - name: Generate completions
-      ansible.builtin.command:
-        cmd: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo', 'bin', 'ast-grep'] | path_join }} completions zsh"
-      register: completions
-
-    - name: Install completions
-      ansible.builtin.copy:
-        content: "{{ completions.stdout }}"
-        dest: "{{ ['/', 'usr', 'share', 'zsh', 'site-functions', '_ast-grep'] | path_join }}"
-        mode: 'u=rw,g=r,o=r'
-      become: true
+        package_name: ast-grep
+        build_root: ['crates', 'cli']
+        executable: ast-grep
