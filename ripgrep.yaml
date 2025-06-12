@@ -1,16 +1,11 @@
 ---
 - name: ripgrep
   hosts: localhost
-  tasks:
-    - name: Clone
-      ansible.builtin.git:
-        repo: 'https://github.com/BurntSushi/ripgrep.git'
-        dest: "{{ [distfiles_dir, 'ripgrep'] | path_join }}"
-        single_branch: true
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/BurntSushi/ripgrep.git'
+        repo_dir: ripgrep
         version: cbc598f245f3c157a872b69102653e2e349b6d92
-
-    - name: Install
-      community.general.cargo:
-        name: ripgrep
-        directory: "{{ [distfiles_dir, 'ripgrep'] | path_join }}"
-        locked: true
+        package_name: ripgrep
+        build_root: []

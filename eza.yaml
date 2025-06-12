@@ -1,16 +1,11 @@
 ---
 - name: eza
   hosts: localhost
-  tasks:
-    - name: Clone
-      ansible.builtin.git:
-        repo: 'https://github.com/eza-community/eza.git'
-        dest: "{{ [distfiles_dir, 'eza'] | path_join }}"
-        single_branch: true
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/eza-community/eza.git'
+        repo_dir: eza
         version: a72d4fdd580b5310894ac44b7f8a71b693ba458d
-
-    - name: Install
-      community.general.cargo:
-        name: eza
-        directory: "{{ [distfiles_dir, 'eza'] | path_join }}"
-        locked: true
+        package_name: eza
+        build_root: []

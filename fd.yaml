@@ -1,16 +1,11 @@
 ---
 - name: fd
   hosts: localhost
-  tasks:
-    - name: Clone
-      ansible.builtin.git:
-        repo: 'https://github.com/sharkdp/fd.git'
-        dest: "{{ [distfiles_dir, 'fd'] | path_join }}"
-        single_branch: true
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/sharkdp/fd.git'
+        repo_dir: fd
         version: ba35c5ea67d995dfd12001678af7d4533c7d5458
-
-    - name: Install
-      community.general.cargo:
-        name: fd-find
-        directory: "{{ [distfiles_dir, 'fd'] | path_join }}"
-        locked: true
+        package_name: fd-find
+        build_root: []
