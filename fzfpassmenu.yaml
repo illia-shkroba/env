@@ -1,0 +1,23 @@
+---
+- name: fzfpassmenu
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/illia-shkroba/fzfpassmenu.git'
+        dest: "{{ [distfiles_dir, 'fzfpassmenu'] | path_join }}"
+        single_branch: true
+        version: fc35bbc849873660cbabb51566faec24281cdb12
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        state: directory
+      become: true
+
+    - name: Copy script
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzfpassmenu', 'fzfpassmenu'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
