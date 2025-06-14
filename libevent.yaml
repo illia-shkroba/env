@@ -1,8 +1,6 @@
 ---
 - name: libevent
   hosts: localhost
-  tags:
-    - dependencies
   tasks:
     - name: Clone
       ansible.builtin.git:
@@ -37,7 +35,8 @@
         target: verify
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
       tags:
-        - verify
+        - long-running
+        - optional
 
     - name: Install
       community.general.make:

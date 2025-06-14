@@ -1,8 +1,6 @@
 ---
 - name: go
   hosts: localhost
-  tags:
-    - dependencies
   tasks:
     - name: Clone
       ansible.builtin.git:
