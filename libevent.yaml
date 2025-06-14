@@ -6,7 +6,6 @@
       ansible.builtin.git:
         repo: 'https://github.com/libevent/libevent.git'
         dest: "{{ [distfiles_dir, 'libevent'] | path_join }}"
-        depth: 1
         single_branch: true
         version: 112421c8fa4840acd73502f2ab6a674fc025de37
 

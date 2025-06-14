@@ -6,7 +6,6 @@
       ansible.builtin.git:
         repo: 'https://github.com/fastfetch-cli/fastfetch.git'
         dest: "{{ [distfiles_dir, 'fastfetch'] | path_join }}"
-        depth: 1
         single_branch: true
         version: 1e32a95f83ad0ec1037edb71a2fe86b7a975821a
 

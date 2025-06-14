@@ -6,7 +6,6 @@
       ansible.builtin.git:
         repo: 'https://go.googlesource.com/go'
         dest: "{{ [distfiles_dir, 'go'] | path_join }}"
-        depth: 1
         single_branch: true
         version: d4c6effaa7b95a2ea149ece4a400c0ace2773839
 
