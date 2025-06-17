@@ -1,0 +1,23 @@
+---
+- name: fzfmenu
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/illia-shkroba/fzfmenu.git'
+        dest: "{{ [distfiles_dir, 'fzfmenu'] | path_join }}"
+        single_branch: true
+        version: e19500cd5bfe13aea5aaf97584b16f5ee47a9d96
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        state: directory
+      become: true
+
+    - name: Copy script
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'fzfmenu', 'fzfmenu'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
