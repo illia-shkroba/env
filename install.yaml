@@ -64,6 +64,9 @@
 - name: Install tmux
   ansible.builtin.import_playbook: tmux.yaml
 
+- name: Install uv
+  ansible.builtin.import_playbook: uv.yaml
+
 - name: Install zsh-autosuggestions
   ansible.builtin.import_playbook: zsh-autosuggestions.yaml
 

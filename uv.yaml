@@ -1,0 +1,42 @@
+---
+- name: uv
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/astral-sh/uv.git'
+        dest: "{{ [distfiles_dir, 'uv'] | path_join }}"
+        single_branch: true
+        version: d653fbb1331cfd0bb8f937402c93f95e2e331f82
+
+    - name: Build
+      ansible.builtin.command:
+        cmd: cargo build --release --locked
+        creates: "{{ [distfiles_dir, 'uv', 'target', 'release'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'uv'] | path_join }}"
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        state: directory
+      become: true
+
+    - name: Copy binaries
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'uv', 'target', 'release', item] | path_join }}"
+        dest: "{{ ['/', 'usr', 'local', 'bin', item] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
+      loop:
+        - uv
+        - uvx
+
+    - name: Generate completions
+      ansible.builtin.import_role:
+        name: completions
+      vars:
+        root_dir: "{{ ['/', 'usr', 'local', 'bin'] }}"
+        executable: uv
+        args:
+          - generate-shell-completion
+          - zsh
