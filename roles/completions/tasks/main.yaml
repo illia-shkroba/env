@@ -1,0 +1,12 @@
+---
+- name: Generate
+  ansible.builtin.command:
+    argv: "{{ [(root_dir + [executable]) | path_join] + args }}"
+  register: result
+
+- name: Install
+  ansible.builtin.copy:
+    content: "{{ result.stdout }}"
+    dest: "{{ ['/', 'usr', 'share', 'zsh', 'site-functions', '_' + executable] | path_join }}"
+    mode: 'u=rw,g=r,o=r'
+  become: true

@@ -14,15 +14,10 @@
     path: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo'] | path_join }}"
 
 - when: completions is defined
-  block:
-  - name: Generate completions
-    ansible.builtin.command:
-      argv: "{{ [[lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo', 'bin', completions.executable] | path_join] + completions.args }}"
-    register: completions_result
-
-  - name: Install completions
-    ansible.builtin.copy:
-      content: "{{ completions_result.stdout }}"
-      dest: "{{ ['/', 'usr', 'share', 'zsh', 'site-functions', '_' + completions.executable] | path_join }}"
-      mode: 'u=rw,g=r,o=r'
-    become: true
+  name: Generate completions
+  ansible.builtin.import_role:
+    name: completions
+  vars:
+    root_dir: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo', 'bin'] }}"
+    executable: "{{ completions.executable }}"
+    args: "{{ completions.args }}"
