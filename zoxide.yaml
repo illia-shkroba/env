@@ -11,7 +11,7 @@
 
     - name: Build
       ansible.builtin.command:
-        cmd: cargo build --release --locked
+        cmd: cargo build --release --frozen --all-features
         creates: "{{ [distfiles_dir, 'zoxide', 'target', 'release'] | path_join }}"
         chdir: "{{ [distfiles_dir, 'zoxide'] | path_join }}"
 
@@ -27,3 +27,13 @@
         dest: "{{ ['/', 'usr', 'local', 'bin', 'zoxide'] | path_join }}"
         mode: 'u=rwx,g=rx,o=rx'
       become: true
+
+    - name: Generate completions
+      ansible.builtin.import_role:
+        name: completions
+      vars:
+        root_dir: "{{ ['/', 'usr', 'local', 'bin'] }}"
+        executable: zoxide
+        args:
+          - init
+          - zsh
