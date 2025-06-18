@@ -1,0 +1,29 @@
+---
+- name: zoxide
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/ajeetdsouza/zoxide.git'
+        dest: "{{ [distfiles_dir, 'zoxide'] | path_join }}"
+        single_branch: true
+        version: 6324b4e347a45ba7e07ec2584d11e133fad3bd84
+
+    - name: Build
+      ansible.builtin.command:
+        cmd: cargo build --release --locked
+        creates: "{{ [distfiles_dir, 'zoxide', 'target', 'release'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'zoxide'] | path_join }}"
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        state: directory
+      become: true
+
+    - name: Copy binaries
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'zoxide', 'target', 'release', 'zoxide'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'local', 'bin', 'zoxide'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
