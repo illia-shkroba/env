@@ -1,0 +1,23 @@
+---
+- name: pass
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://git.zx2c4.com/password-store'
+        dest: "{{ [distfiles_dir, 'pass'] | path_join }}"
+        single_branch: true
+        version: 3ca13cd8882cae4083c1c478858adbf2e82dd037
+
+    - name: Build
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'pass'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'pass'] | path_join }}"
+        params:
+          DESTDIR: /
+          WITH_ALLCOMP: yes
+      become: true

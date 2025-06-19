@@ -55,6 +55,9 @@
 - name: Install neovim
   ansible.builtin.import_playbook: neovim.yaml
 
+- name: Install pass
+  ansible.builtin.import_playbook: pass.yaml
+
 - name: Install ripgrep
   ansible.builtin.import_playbook: ripgrep.yaml
 
