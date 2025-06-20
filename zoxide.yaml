@@ -11,7 +11,7 @@
 
     - name: Build
       ansible.builtin.command:
-        cmd: cargo build --release --frozen --all-features
+        cmd: cargo build --release --locked --all-features
         creates: "{{ [distfiles_dir, 'zoxide', 'target', 'release'] | path_join }}"
         chdir: "{{ [distfiles_dir, 'zoxide'] | path_join }}"
 
