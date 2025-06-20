@@ -9,6 +9,9 @@
   tags:
     - dependencies
 
+- name: Install glow
+  ansible.builtin.import_playbook: glow.yaml
+
 - name: Install libevent
   ansible.builtin.import_playbook: libevent.yaml
   tags:
