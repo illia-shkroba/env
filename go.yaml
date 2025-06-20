@@ -29,3 +29,4 @@
       loop:
         - "{{ [distfiles_dir, 'go', 'bin'] | path_join }}"
         - "{{ [lookup('ansible.builtin.env', 'HOME'), 'go'] | path_join }}"
+      become: true
