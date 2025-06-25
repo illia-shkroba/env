@@ -1,4 +1,7 @@
 ---
+- name: Install bat
+  ansible.builtin.import_playbook: bat.yaml
+
 - name: Install cargo
   ansible.builtin.import_playbook: cargo.yaml
   tags:

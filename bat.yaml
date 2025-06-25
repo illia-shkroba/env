@@ -1,0 +1,13 @@
+---
+- name: bat
+  hosts: localhost
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/sharkdp/bat.git'
+        repo_dir: bat
+        version: e2aa4bc33cca785cab8bdadffc58a4a30b245854
+        package_name: bat
+        build_root: []
+  environment:
+    - RUSTONIG_SYSTEM_LIBONIG: 1
