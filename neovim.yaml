@@ -6,8 +6,9 @@
       ansible.builtin.git:
         repo: 'https://github.com/neovim/neovim.git'
         dest: "{{ [distfiles_dir, 'neovim'] | path_join }}"
+        force: true
         single_branch: true
-        version: 33b0a004eb20fd5a0013b832414596190c059828
+        version: 444a8b3ec6375b03f1483a97095a00b067a499ec
 
     - name: Make
       community.general.make:
