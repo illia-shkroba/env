@@ -1,0 +1,11 @@
+---
+- name: atuin
+  hosts: localhost
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/atuinsh/atuin'
+        repo_dir: atuin
+        version: 3cf4ff82a65e328fa80c561d594df6632572c698
+        package_name: atuin
+        build_root: []
