@@ -1,4 +1,7 @@
 ---
+- name: Install atuin
+  ansible.builtin.import_playbook: atuin.yaml
+
 - name: Install bat
   ansible.builtin.import_playbook: bat.yaml
 
