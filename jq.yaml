@@ -1,0 +1,41 @@
+---
+- name: jq
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/jqlang/jq.git'
+        dest: "{{ [distfiles_dir, 'jq'] | path_join }}"
+        single_branch: true
+        version: a8115e5bc995cc538f397c02711993f383348503
+
+    - name: Update generated configuration files
+      ansible.builtin.command:
+        cmd: autoreconf -i
+        chdir: "{{ [distfiles_dir, 'jq'] | path_join }}"
+
+    - name: Configure
+      ansible.builtin.command:
+        cmd: ./configure --with-oniguruma=builtin
+        chdir: "{{ [distfiles_dir, 'jq'] | path_join }}"
+
+    - name: Clean
+      community.general.make:
+        target: clean
+        chdir: "{{ [distfiles_dir, 'jq'] | path_join }}"
+
+    - name: Make
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'jq'] | path_join }}"
+        jobs: 8
+
+    - name: Check
+      community.general.make:
+        target: check
+        chdir: "{{ [distfiles_dir, 'jq'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'jq'] | path_join }}"
+      become: true

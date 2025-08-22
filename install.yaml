@@ -64,6 +64,9 @@
 - name: Install fzfpassmenu
   ansible.builtin.import_playbook: fzfpassmenu.yaml
 
+- name: Install jq
+  ansible.builtin.import_playbook: jq.yaml
+
 - name: Install neovim
   ansible.builtin.import_playbook: neovim.yaml
   tags:
