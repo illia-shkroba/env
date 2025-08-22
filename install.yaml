@@ -10,6 +10,9 @@
   tags:
     - dependencies
 
+- name: Install clipmenu
+  ansible.builtin.import_playbook: clipmenu.yaml
+
 - name: Install go
   ansible.builtin.import_playbook: go.yaml
   tags:

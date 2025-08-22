@@ -1,0 +1,16 @@
+---
+- name: clipmenu
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/cdown/clipmenu.git'
+        dest: "{{ [distfiles_dir, 'clipmenu'] | path_join }}"
+        single_branch: true
+        version: 32510bc16dea10f73b4a6180f09ed5edf898eb4a
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'clipmenu'] | path_join }}"
+      become: true
