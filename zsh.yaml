@@ -1,0 +1,68 @@
+---
+- name: zsh
+  hosts: localhost
+  tasks:
+    - name: Download archive
+      ansible.builtin.get_url:
+        url: https://www.zsh.org/pub/zsh-5.9.tar.xz
+        dest: "{{ [distfiles_dir, 'zsh-5.9.tar.xz'] | path_join }}"
+        checksum: sha256:9b8d1ecedd5b5e81fbf1918e876752a7dd948e05c1a0dba10ab863842d45acd5
+
+    - name: Unpack archive
+      ansible.builtin.unarchive:
+        src: "{{ [distfiles_dir, 'zsh-5.9.tar.xz'] | path_join }}"
+        dest: "{{ [distfiles_dir] | path_join }}"
+
+    - name: Remove archive
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'zsh-5.9.tar.xz'] | path_join }}"
+        state: absent
+
+    - name: Apply build fix patch
+      ansible.posix.patch:
+        src: "{{ [playbook_dir, 'etc', 'zsh', '0005-52383-avoid-incompatible-pointer-types.patch'] | path_join }}"
+        basedir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
+        strip: 1
+
+    - name: Regenerate `configure` after patching
+      ansible.builtin.command:
+        cmd: autoreconf -fi
+        chdir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
+
+    - name: Configure
+      ansible.builtin.command:
+        argv:
+          - ./configure
+          - --prefix=/usr
+          - --docdir=/usr/share/doc/zsh
+          - --htmldir=/usr/share/doc/zsh/html
+          - --enable-etcdir=/etc/zsh
+          - --enable-zshenv=/etc/zsh/zshenv
+          - --enable-zlogin=/etc/zsh/zlogin
+          - --enable-zlogout=/etc/zsh/zlogout
+          - --enable-zprofile=/etc/zsh/zprofile
+          - --enable-zshrc=/etc/zsh/zshrc
+          - --enable-maildir-support
+          - --with-term-lib=ncursesw
+          - --enable-multibyte
+          - --enable-function-subdirs
+          - --enable-fndir=/usr/share/zsh/functions
+          - --enable-scriptdir=/usr/share/zsh/scripts
+          - --with-tcsetpgrp
+          - --enable-pcre
+          - --enable-gdbm
+          - --enable-cap
+          - --enable-zsh-secure-free
+        chdir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
+
+    - name: Build
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
+        params:
+          DESTDIR: /
+      become: true

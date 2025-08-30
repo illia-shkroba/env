@@ -95,6 +95,9 @@
 - name: Install zoxide
   ansible.builtin.import_playbook: zoxide.yaml
 
+- name: Install zsh
+  ansible.builtin.import_playbook: zsh.yaml
+
 - name: Install zsh-autosuggestions
   ansible.builtin.import_playbook: zsh-autosuggestions.yaml
 
