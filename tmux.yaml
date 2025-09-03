@@ -7,7 +7,7 @@
         repo: 'https://github.com/tmux/tmux.git'
         dest: "{{ [distfiles_dir, 'tmux'] | path_join }}"
         single_branch: true
-        version: 6f9bcb7fee5f5aace29f5c3e474aaa61e8c34bfd
+        version: 6a3170386e8362315cfe78b2776654c29b675202
 
     - name: Autogen
       ansible.builtin.command:
