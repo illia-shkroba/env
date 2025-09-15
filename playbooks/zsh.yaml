@@ -20,7 +20,7 @@
 
     - name: Apply build fix patch
       ansible.posix.patch:
-        src: "{{ [playbook_dir, 'etc', 'zsh', '0005-52383-avoid-incompatible-pointer-types.patch'] | path_join }}"
+        src: "{{ [playbook_dir, '..', 'etc', 'zsh', '0005-52383-avoid-incompatible-pointer-types.patch'] | path_join }}"
         basedir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
         strip: 1
 
