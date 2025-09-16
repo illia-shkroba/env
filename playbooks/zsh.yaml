@@ -1,6 +1,14 @@
 ---
 - name: zsh
   hosts: localhost
+  vars:
+    patches:
+      - "{{ [playbook_dir, '..', 'etc', 'zsh', '0001-50629-do-not-use-egrep-in-tests.patch'] | path_join }}"
+      - "{{ [playbook_dir, '..', 'etc', 'zsh', '0001-50641-use-int-main.patch'] | path_join }}"
+      - "{{ [playbook_dir, '..', 'etc', 'zsh', '0002-50325-fix-autocompletion.patch'] | path_join }}"
+      - "{{ [playbook_dir, '..', 'etc', 'zsh', '0003-51862-support-texinfo-7-0.patch'] | path_join }}"
+      - "{{ [playbook_dir, '..', 'etc', 'zsh', '0004-pcre2.patch'] | path_join }}"
+      - "{{ [playbook_dir, '..', 'etc', 'zsh', '0005-52383-avoid-incompatible-pointer-types.patch'] | path_join }}"
   tasks:
     - name: Download archive
       ansible.builtin.get_url:
@@ -18,11 +26,29 @@
         path: "{{ [distfiles_dir, 'zsh-5.9.tar.xz'] | path_join }}"
         state: absent
 
-    - name: Apply build fix patch
+    - name: Apply build fix patches
       ansible.posix.patch:
-        src: "{{ [playbook_dir, '..', 'etc', 'zsh', '0005-52383-avoid-incompatible-pointer-types.patch'] | path_join }}"
+        src: "{{ item }}"
         basedir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
         strip: 1
+      loop: "{{ patches }}"
+
+    - name: Set correct keymap path
+      ansible.builtin.replace:
+        path: "{{ [distfiles_dir, 'zsh-5.9', 'Completion', 'Unix', 'Command', '_loadkeys'] | path_join }}"
+        regexp: '/usr/share/keymaps'
+        replace: '/usr/share/kbd/keymaps'
+
+    - name: Fix usb.ids path
+      ansible.builtin.replace:
+        path: "{{ [distfiles_dir, 'zsh-5.9', 'Completion', 'Linux', 'Command', '_lsusb'] | path_join }}"
+        regexp: '/usr/share/misc/usb\.ids'
+        replace: '/usr/share/hwdata/usb.ids'
+
+    - name: Force generation of documentation with correct paths
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'zsh-5.9', 'Doc', 'version.yo'] | path_join }}"
+        state: absent
 
     - name: Regenerate `configure` after patching
       ansible.builtin.command:
@@ -65,4 +91,20 @@
         chdir: "{{ [distfiles_dir, 'zsh-5.9'] | path_join }}"
         params:
           DESTDIR: /
+      become: true
+
+    - name: Copy zprofile
+      ansible.builtin.copy:
+        src: "{{ [playbook_dir, '..', 'etc', 'zsh', 'zprofile'] | path_join }}"
+        dest: "{{ ['/', 'etc', 'zsh', 'zprofile'] | path_join }}"
+        mode: '0644'
+      become: true
+
+    - name: Add zsh to a list of shells
+      ansible.builtin.lineinfile:
+        path: "{{ ['/', 'etc', 'shells'] | path_join }}"
+        line: "{{ item }}"
+      loop:
+        - '^/bin/zsh$'
+        - '^/usr/bin/zsh$'
       become: true
