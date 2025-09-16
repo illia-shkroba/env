@@ -1,0 +1,15 @@
+---
+- name: Install zsh
+  ansible.builtin.import_playbook: playbooks/zsh.yaml
+
+- name: Install zsh-autosuggestions
+  ansible.builtin.import_playbook: playbooks/zsh-autosuggestions.yaml
+
+- name: Install zsh-completions
+  ansible.builtin.import_playbook: playbooks/zsh-completions.yaml
+
+- name: Install zsh-history-substring-search
+  ansible.builtin.import_playbook: playbooks/zsh-history-substring-search.yaml
+
+- name: Install zsh-syntax-highlighting
+  ansible.builtin.import_playbook: playbooks/zsh-syntax-highlighting.yaml
