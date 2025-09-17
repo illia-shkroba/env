@@ -93,6 +93,12 @@
           DESTDIR: /
       become: true
 
+    - name: Create zprofile parent
+      ansible.builtin.file:
+        path: "{{ ['/', 'etc', 'zsh'] | path_join }}"
+        state: directory
+      become: true
+
     - name: Copy zprofile
       ansible.builtin.copy:
         src: "{{ [playbook_dir, '..', 'etc', 'zsh', 'zprofile'] | path_join }}"
