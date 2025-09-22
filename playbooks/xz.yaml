@@ -1,0 +1,44 @@
+---
+- name: xz
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/tukaani-project/xz.git'
+        dest: "{{ [distfiles_dir, 'xz'] | path_join }}"
+        single_branch: true
+        version: v5.8.1
+
+    - name: Autogen
+      ansible.builtin.command:
+        cmd: ./autogen.sh --no-po4a
+        chdir: "{{ [distfiles_dir, 'xz'] | path_join }}"
+
+    - name: Configure
+      ansible.builtin.command:
+        argv:
+          - ./configure
+          - --prefix=/usr
+          - --disable-rpath
+          - --enable-werror
+        chdir: "{{ [distfiles_dir, 'xz'] | path_join }}"
+
+    - name: Make
+      community.general.make:
+        chdir: "{{ [distfiles_dir, 'xz'] | path_join }}"
+        jobs: 8
+
+    - name: Check
+      community.general.make:
+        target: check
+        chdir: "{{ [distfiles_dir, 'xz'] | path_join }}"
+        params:
+          CFLAGS: -Wno-error=unterminated-string-initialization
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'xz'] | path_join }}"
+        params:
+          DESTDIR: /
+      become: true
