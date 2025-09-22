@@ -1,0 +1,40 @@
+---
+- name: Config
+  hosts: localhost
+  vars:
+    config_home_path: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME', default=[lookup('ansible.builtin.env', 'HOME'), '.config'] | path_join) }}"
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/illia-shkroba/XDG_CONFIG_HOME.git'
+        dest: "{{ [distfiles_dir, 'config'] | path_join }}"
+        force: true
+        recursive: false
+        single_branch: true
+        version: master
+
+    - name: Use http instead of ssh to fetch submodules
+      ansible.builtin.replace:
+        path: "{{ [distfiles_dir, 'config', '.gitmodules'] | path_join }}"
+        regexp: '(^\s*url\s*=\s*)git@github.com:(.+)$'
+        replace: '\1https://github.com/\2'
+
+    - name: Fetch submodules
+      ansible.builtin.shell:
+        cmd: git submodule sync && git submodule init && git submodule update
+        chdir: "{{ [distfiles_dir, 'config'] | path_join }}"
+
+    - name: Fetch submodules for qutebrowser
+      ansible.builtin.shell:
+        cmd: git submodule init && git submodule update
+        chdir: "{{ [distfiles_dir, 'config', 'qutebrowser'] | path_join }}"
+
+    - when: copy_config is defined
+      name: Copy config
+      ansible.posix.synchronize:
+        src: "{{ [distfiles_dir, 'config'] | path_join }}/"
+        dest: "{{ config_home_path }}"
+        compress: false
+        delay_updates: false
+        rsync_opts:
+          - --ignore-existing
