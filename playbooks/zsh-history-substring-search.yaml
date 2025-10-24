@@ -1,0 +1,33 @@
+---
+- name: zsh-history-substring-search
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/zsh-users/zsh-history-substring-search.git'
+        dest: "{{ [distfiles_dir, 'zsh-history-substring-search'] | path_join }}"
+        single_branch: true
+        version: 87ce96b1862928d84b1afe7c173316614b30e301
+
+    - name: Create root directories
+      ansible.builtin.file:
+        path: "{{ item }}"
+        state: directory
+      loop:
+        - "{{ ['/', 'usr', 'share', 'zsh', 'plugins', 'zsh-history-substring-search'] | path_join }}"
+        - "{{ ['/', 'usr', 'share', 'doc', 'zsh-history-substring-search'] | path_join }}"
+      become: true
+
+    - name: Copy script
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'zsh-history-substring-search', 'zsh-history-substring-search.zsh'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'share', 'zsh', 'plugins', 'zsh-history-substring-search'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
+
+    - name: Copy manual
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'zsh-history-substring-search', 'README.md'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'share', 'doc', 'zsh-history-substring-search'] | path_join }}"
+        mode: 'u=rw,g=r,o=r'
+      become: true
