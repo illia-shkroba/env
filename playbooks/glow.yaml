@@ -7,7 +7,7 @@
         repo: 'https://github.com/charmbracelet/glow.git'
         dest: "{{ [distfiles_dir, 'glow'] | path_join }}"
         single_branch: true
-        version: 9240ab462519ddff846bbae93646e199151a29cc
+        version: ba37804fd57d82fdea1e2a4275884a76f27c1d8f
 
     - name: Build
       ansible.builtin.command:

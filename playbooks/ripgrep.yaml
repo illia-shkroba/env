@@ -6,6 +6,6 @@
       vars:
         url: 'https://github.com/BurntSushi/ripgrep.git'
         repo_dir: ripgrep
-        version: cbc598f245f3c157a872b69102653e2e349b6d92
+        version: 57c190d56eedac90c061a238b63dbfed434fee50
         package_name: ripgrep
         build_root: []

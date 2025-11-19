@@ -7,7 +7,7 @@
         repo: 'https://github.com/jqlang/jq.git'
         dest: "{{ [distfiles_dir, 'jq'] | path_join }}"
         single_branch: true
-        version: a8115e5bc995cc538f397c02711993f383348503
+        version: 482905914759ef8cfb85315f671e76130951db43
 
     - name: Update generated configuration files
       ansible.builtin.command:
