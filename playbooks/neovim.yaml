@@ -8,13 +8,13 @@
         dest: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         force: true
         single_branch: true
-        version: 4f97239661ebf569fa701f211dd92ef1919bc922
+        version: 99e8b613760820199faac8ca101c5becd4b2374f
 
     - name: Make
       community.general.make:
         chdir: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         params:
-          CMAKE_BUILD_TYPE: Release
+          CMAKE_BUILD_TYPE: RelWithDebInfo
 
     - name: Install
       community.general.make:
