@@ -7,7 +7,7 @@
         repo: 'https://github.com/ajeetdsouza/zoxide.git'
         dest: "{{ [distfiles_dir, 'zoxide'] | path_join }}"
         single_branch: true
-        version: 6324b4e347a45ba7e07ec2584d11e133fad3bd84
+        version: f00fe0f0aeaeaf8fda48ca467c706a5174830b77
 
     - name: Build
       ansible.builtin.command:
