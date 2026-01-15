@@ -1,0 +1,17 @@
+---
+- name: tree-sitter
+  hosts: localhost
+  roles:
+    - role: cargo
+      vars:
+        url: 'https://github.com/tree-sitter/tree-sitter'
+        repo_dir: tree-sitter
+        version: 5808350bfee9891583394c642e8f257ce3c73539
+        package_name: tree-sitter-cli
+        build_root: ['crates', 'cli']
+        completions:
+          executable: tree-sitter
+          args:
+            - complete
+            - --shell
+            - zsh
