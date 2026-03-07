@@ -6,6 +6,6 @@
       vars:
         url: 'https://github.com/sharkdp/fd.git'
         repo_dir: fd
-        version: ba35c5ea67d995dfd12001678af7d4533c7d5458
+        version: ff1f66cceb981866416a8611ad264340885cb6b2
         package_name: fd-find
         build_root: []
