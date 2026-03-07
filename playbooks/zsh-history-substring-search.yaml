@@ -7,7 +7,7 @@
         repo: 'https://github.com/zsh-users/zsh-history-substring-search.git'
         dest: "{{ [distfiles_dir, 'zsh-history-substring-search'] | path_join }}"
         single_branch: true
-        version: 87ce96b1862928d84b1afe7c173316614b30e301
+        version: 14c8d2e0ffaee98f2df9850b19944f32546fdea5
 
     - name: Create root directories
       ansible.builtin.file:

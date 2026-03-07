@@ -7,7 +7,7 @@
         repo: 'https://github.com/zsh-users/zsh-syntax-highlighting.git'
         dest: "{{ [distfiles_dir, 'zsh-syntax-highlighting'] | path_join }}"
         single_branch: true
-        version: 5eb677bb0fa9a3e60f0eff031dc13926e093df92
+        version: 1d85c692615a25fe2293bdd44b34c217d5d2bf04
 
     - name: Build
       community.general.make:

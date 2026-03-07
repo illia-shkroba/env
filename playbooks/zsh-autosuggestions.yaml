@@ -7,7 +7,7 @@
         repo: 'https://github.com/zsh-users/zsh-autosuggestions.git'
         dest: "{{ [distfiles_dir, 'zsh-autosuggestions'] | path_join }}"
         single_branch: true
-        version: 0e810e5afa27acbd074398eefbe28d13005dbc15
+        version: 85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5
 
     - name: Create root directories
       ansible.builtin.file:

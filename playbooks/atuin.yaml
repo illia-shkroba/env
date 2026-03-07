@@ -6,7 +6,7 @@
       vars:
         url: 'https://github.com/atuinsh/atuin'
         repo_dir: atuin
-        version: 3cf4ff82a65e328fa80c561d594df6632572c698
+        version: e6ab243dfde79c50ce5661b630ed26b9a1504dae
         package_name: atuin
         build_root: ['crates', 'atuin']
         completions:

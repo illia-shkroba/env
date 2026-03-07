@@ -7,7 +7,7 @@
         repo: 'https://github.com/zsh-users/zsh-completions.git'
         dest: "{{ [distfiles_dir, 'zsh-completions'] | path_join }}"
         single_branch: true
-        version: 46317b36e287341176b47f97a707abcf10ade8b4
+        version: 84615f3d0b0e943d5b1de862c9552e572c8e70bb
 
     - name: Create root directories
       ansible.builtin.file:

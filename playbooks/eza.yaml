@@ -6,6 +6,6 @@
       vars:
         url: 'https://github.com/eza-community/eza.git'
         repo_dir: eza
-        version: a72d4fdd580b5310894ac44b7f8a71b693ba458d
+        version: 08152f891c680f890afa384c2d4012c0eacc025c
         package_name: eza
         build_root: []
