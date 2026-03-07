@@ -19,5 +19,5 @@
         chdir: "{{ [distfiles_dir, 'pass'] | path_join }}"
         params:
           DESTDIR: /
-          WITH_ALLCOMP: yes
+          WITH_ZSHCOMP: yes
       become: true
