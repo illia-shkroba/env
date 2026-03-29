@@ -21,9 +21,3 @@
         chdir: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         target: install
       become: true
-
-    - name: Remove indent runtime files
-      ansible.builtin.file:
-        path: "{{ ['/', 'usr', 'local', 'share', 'nvim', 'runtime', 'indent'] | path_join }}"
-        state: absent
-      become: true
