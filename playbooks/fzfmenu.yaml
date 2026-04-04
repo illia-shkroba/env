@@ -7,7 +7,7 @@
         repo: 'https://github.com/illia-shkroba/fzfmenu.git'
         dest: "{{ [distfiles_dir, 'fzfmenu'] | path_join }}"
         single_branch: true
-        version: f02153003036a581f47c4486629baa1f9de965a9
+        version: 91889430596349cf14d3eb1108c9cba3ab3f5b9d
 
     - name: Create root directories
       ansible.builtin.file:
@@ -15,12 +15,10 @@
         state: directory
       become: true
 
-    - name: Copy scripts
-      ansible.builtin.copy:
-        src: "{{ item }}"
-        dest: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
-        mode: 'u=rwx,g=rx,o=rx'
-      loop:
-        - "{{ [distfiles_dir, 'fzfmenu', 'fzfmenu'] | path_join }}"
-        - "{{ [distfiles_dir, 'fzfmenu', 'fzfmenu-run'] | path_join }}"
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'fzfmenu'] | path_join }}"
+        params:
+          DESTDIR: /
       become: true
