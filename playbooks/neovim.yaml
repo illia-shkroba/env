@@ -8,7 +8,7 @@
         dest: "{{ [distfiles_dir, 'neovim'] | path_join }}"
         force: true
         single_branch: true
-        version: ff68fd6b8a84ce83c14358db1d70a562f1524ebe
+        version: c44df255aa095525647efaeaba2bc41ed1d538f5
 
     - name: Make
       community.general.make:
