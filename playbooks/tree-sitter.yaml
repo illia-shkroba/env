@@ -11,7 +11,7 @@
         build_root: ['crates', 'cli']
         completions:
           executable: tree-sitter
-          args:
+          argv:
             - complete
             - --shell
             - zsh

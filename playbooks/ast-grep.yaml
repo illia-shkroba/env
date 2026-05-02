@@ -11,6 +11,6 @@
         build_root: ['crates', 'cli']
         completions:
           executable: ast-grep
-          args:
+          argv:
             - completions
             - zsh

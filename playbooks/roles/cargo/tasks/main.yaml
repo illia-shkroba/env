@@ -20,4 +20,4 @@
   vars:
     root_dir: "{{ [lookup('ansible.builtin.env', 'XDG_DATA_HOME'), 'cargo', 'bin'] }}"
     executable: "{{ completions.executable }}"
-    args: "{{ completions.args }}"
+    argv: "{{ completions.argv }}"

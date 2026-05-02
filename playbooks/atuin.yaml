@@ -11,7 +11,7 @@
         build_root: ['crates', 'atuin']
         completions:
           executable: atuin
-          args:
+          argv:
             - gen-completions
             - --shell
             - zsh

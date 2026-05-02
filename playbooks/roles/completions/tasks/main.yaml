@@ -1,7 +1,7 @@
 ---
 - name: Generate
   ansible.builtin.command:
-    argv: "{{ [(root_dir + [executable]) | path_join] + args }}"
+    argv: "{{ [(root_dir + [executable]) | path_join] + argv }}"
   register: result
 
 - name: Install

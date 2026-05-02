@@ -37,6 +37,6 @@
       vars:
         root_dir: "{{ ['/', 'usr', 'local', 'bin'] }}"
         executable: uv
-        args:
+        argv:
           - generate-shell-completion
           - zsh
