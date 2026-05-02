@@ -1,4 +1,0 @@
----
-all:
-  vars:
-    distfiles_dir: distfiles
