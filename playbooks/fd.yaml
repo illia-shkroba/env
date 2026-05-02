@@ -6,6 +6,6 @@
       vars:
         url: 'https://github.com/sharkdp/fd.git'
         repo_dir: fd
-        version: ff1f66cceb981866416a8611ad264340885cb6b2
+        version: "{{ env_lock['fd'] }}"
         package_name: fd-find
         build_root: []

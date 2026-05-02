@@ -1,0 +1,9 @@
+---
+repo_root_dir: "{{ lookup('pipe', 'git -C ' + playbook_dir + ' rev-parse --show-toplevel') }}"
+env_lock_path: "{{ [repo_root_dir, 'env-lock.jsonl'] | path_join }}"
+env_lock: >-
+  {{
+    lookup('file', env_lock_path).splitlines()
+    | map('from_json')
+    | items2dict(key_name='name', value_name='commit')
+  }}

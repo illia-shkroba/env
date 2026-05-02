@@ -7,7 +7,7 @@
         repo: 'https://github.com/starship/starship.git'
         dest: "{{ [distfiles_dir, 'starship'] | path_join }}"
         single_branch: true
-        version: 8952f47d908e09a12de9681b404cfebe0cf5b945
+        version: "{{ env_lock['starship'] }}"
 
     - name: Install
       ansible.builtin.command:

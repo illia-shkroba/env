@@ -7,7 +7,7 @@
         repo: 'https://github.com/tukaani-project/xz.git'
         dest: "{{ [distfiles_dir, 'xz'] | path_join }}"
         single_branch: true
-        version: v5.8.1
+        version: "{{ env_lock['xz'] }}"
 
     - name: Autogen
       ansible.builtin.command:

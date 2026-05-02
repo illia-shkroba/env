@@ -7,7 +7,7 @@
         repo: 'https://github.com/astral-sh/uv.git'
         dest: "{{ [distfiles_dir, 'uv'] | path_join }}"
         single_branch: true
-        version: d653fbb1331cfd0bb8f937402c93f95e2e331f82
+        version: "{{ env_lock['uv'] }}"
 
     - name: Build
       ansible.builtin.command:

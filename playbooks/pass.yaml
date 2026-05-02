@@ -7,7 +7,7 @@
         repo: 'https://git.zx2c4.com/password-store'
         dest: "{{ [distfiles_dir, 'pass'] | path_join }}"
         single_branch: true
-        version: 3ca13cd8882cae4083c1c478858adbf2e82dd037
+        version: "{{ env_lock['pass'] }}"
 
     - name: Build
       community.general.make:

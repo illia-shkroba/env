@@ -7,7 +7,7 @@
         repo: 'https://github.com/minos-org/dzen2.git'
         dest: "{{ [distfiles_dir, 'dzen2'] | path_join }}"
         single_branch: true
-        version: 7aaa79b3f3b6e6a87ef46cf77eb18a9c42967b10
+        version: "{{ env_lock['dzen2'] }}"
 
     - name: Install
       community.general.make:

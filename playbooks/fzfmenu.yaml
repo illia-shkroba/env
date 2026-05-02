@@ -7,7 +7,7 @@
         repo: 'https://github.com/illia-shkroba/fzfmenu.git'
         dest: "{{ [distfiles_dir, 'fzfmenu'] | path_join }}"
         single_branch: true
-        version: 91889430596349cf14d3eb1108c9cba3ab3f5b9d
+        version: "{{ env_lock['fzfmenu'] }}"
 
     - name: Create root directories
       ansible.builtin.file:

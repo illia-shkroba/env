@@ -7,7 +7,7 @@
         repo: 'https://github.com/cdown/clipmenu.git'
         dest: "{{ [distfiles_dir, 'clipmenu'] | path_join }}"
         single_branch: true
-        version: 32510bc16dea10f73b4a6180f09ed5edf898eb4a
+        version: "{{ env_lock['clipmenu'] }}"
 
     - name: Install
       community.general.make:

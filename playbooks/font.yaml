@@ -7,7 +7,7 @@
         repo: 'https://github.com/JetBrains/JetBrainsMono.git'
         dest: "{{ [distfiles_dir, 'font'] | path_join }}"
         single_branch: true
-        version: 19371302b95d218af43299bce79ddbddd0bc364d
+        version: "{{ env_lock['font'] }}"
 
     - name: Install
       ansible.builtin.command:

@@ -7,7 +7,7 @@
         repo: 'https://github.com/junegunn/fzf.git'
         dest: "{{ [distfiles_dir, 'fzf'] | path_join }}"
         single_branch: true
-        version: b4a86a9c8a688159131a27b6ec9dbce72ec11573
+        version: "{{ env_lock['fzf'] }}"
 
     - name: Install
       ansible.builtin.command:

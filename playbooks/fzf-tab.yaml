@@ -7,7 +7,7 @@
         repo: 'https://github.com/Aloxaf/fzf-tab.git'
         dest: "{{ [distfiles_dir, 'fzf-tab'] | path_join }}"
         single_branch: true
-        version: 0fbd5753f935dcb6899e5fb2a0fb9a3fd69f1ce0
+        version: "{{ env_lock['fzf-tab'] }}"
 
     - name: Create root directory
       ansible.builtin.file:

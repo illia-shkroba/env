@@ -6,6 +6,6 @@
       vars:
         url: 'https://github.com/eza-community/eza.git'
         repo_dir: eza
-        version: 08152f891c680f890afa384c2d4012c0eacc025c
+        version: "{{ env_lock['eza'] }}"
         package_name: eza
         build_root: []
