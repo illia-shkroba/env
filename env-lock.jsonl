@@ -13,6 +13,7 @@
 {"name":"fzfmenu","commit":"a34d2c2382c7c1315c174094d241c1a7f7f49693"}
 {"name":"fzfpassmenu","commit":"fc35bbc849873660cbabb51566faec24281cdb12"}
 {"name":"fzf-tab","commit":"e394092c17277c84cb3d234917c4ac1073102ba6"}
+{"name":"ghostty","commit":"bfe633a9487892ff3d27ed727db540267f22ef90"}
 {"name":"glow","commit":"53788271b387c23b20b0db69fea2fd552593623b"}
 {"name":"go","commit":"d1d68c2dd09a74a233163448f6af5ac4f6a4c0fc"}
 {"name":"jq","commit":"985abe534fdd48186015e169da7786c05fd7f868"}

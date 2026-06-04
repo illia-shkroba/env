@@ -1,0 +1,15 @@
+---
+- name: ghostty
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/ghostty-org/ghostty.git'
+        dest: "{{ [distfiles_dir, 'ghostty'] | path_join }}"
+        single_branch: true
+        version: "{{ env_lock['ghostty'] }}"
+
+    - name: Build
+      ansible.builtin.command:
+        cmd: zig build -Doptimize=ReleaseFast
+        chdir: "{{ [distfiles_dir, 'ghostty'] | path_join }}"
