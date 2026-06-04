@@ -1,0 +1,27 @@
+---
+- name: zig
+  hosts: localhost
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://codeberg.org/ziglang/zig.git'
+        dest: "{{ [distfiles_dir, 'zig'] | path_join }}"
+        single_branch: true
+        version: "{{ env_lock['zig'] }}"
+
+    - name: Create build directory
+      ansible.builtin.file:
+        path: "{{ [distfiles_dir, 'zig', 'build'] | path_join }}"
+        state: directory
+
+    - name: Invoke cmake
+      ansible.builtin.command:
+        cmd: cmake ..
+        creates: "{{ [distfiles_dir, 'zig', 'build', 'Makefile'] | path_join }}"
+        chdir: "{{ [distfiles_dir, 'zig', 'build'] | path_join }}"
+
+    - name: Install
+      community.general.make:
+        target: install
+        chdir: "{{ [distfiles_dir, 'zig', 'build'] | path_join }}"
+      become: true

@@ -25,6 +25,7 @@
 {"name":"tree-sitter","commit":"574205298283bfbec30fac611e330fc4a4431365"}
 {"name":"uv","commit":"ebd5033d77bca6a58c329cbbc351406a9415c920"}
 {"name":"xz","commit":"1aab7e9cab1293c2b8a481ed1beac94da21ef04f"}
+{"name":"zig","commit":"645a38aeb69846b7b692fabdd63f62d6e5a17464"}
 {"name":"zoxide","commit":"c8a47a068bd9364e93d0c7eebd8bf58bdcc33b90"}
 {"name":"zsh-autosuggestions","commit":"85919cd1ffa7d2d5412f6d3fe437ebdbeeec4fc5"}
 {"name":"zsh-completions","commit":"f954400c72530daccb38868ebc8da42dace56bb0"}
