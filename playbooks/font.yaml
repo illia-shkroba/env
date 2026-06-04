@@ -1,6 +1,8 @@
 ---
 - name: font
   hosts: localhost
+  vars:
+    data_home_path: "{{ lookup('ansible.builtin.env', 'XDG_DATA_HOME', default=[lookup('ansible.builtin.env', 'HOME'), '.local', 'share'] | path_join) }}"
   tasks:
     - name: Clone
       ansible.builtin.git:
@@ -13,3 +15,12 @@
       ansible.builtin.command:
         cmd: ./install_manual.sh
         chdir: "{{ [distfiles_dir, 'font'] | path_join }}"
+
+    - name: Remove webfonts (`woff2` breaks `fontconfig_freetype` used by `ghostty`)
+      ansible.builtin.file:
+        path: "{{ [data_home_path, 'fonts', 'fonts', 'webfonts'] | path_join }}"
+        state: absent
+
+    - name: Rebuild font cache
+      ansible.builtin.command:
+        cmd: fc-cache -f
