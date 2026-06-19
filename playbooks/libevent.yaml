@@ -1,5 +1,7 @@
 ---
 - name: libevent
+  tags:
+    - disabled
   hosts: localhost
   tasks:
     - name: Clone
@@ -33,9 +35,6 @@
       community.general.make:
         target: verify
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
-      tags:
-        - long-running
-        - optional
 
     - name: Install
       community.general.make:

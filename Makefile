@@ -10,7 +10,7 @@ install:
 	ansible-playbook \
 		--connection local \
 		--extra-vars distfiles_dir="$(XDG_CACHE_HOME)/distfiles" \
-		--skip-tags optional \
+		--skip-tags disabled \
 		$(PLAYBOOK)
 
 refresh:
@@ -33,6 +33,6 @@ upgrade:
 		ansible-playbook \
 			--connection local \
 			--extra-vars distfiles_dir="$(XDG_CACHE_HOME)/distfiles" \
-			--skip-tags optional \
+			--skip-tags disabled \
 			playbooks/"$$playbook".yaml
 	done
