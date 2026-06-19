@@ -1,5 +1,7 @@
 ---
 - name: ncurses
+  tags:
+    - disabled
   hosts: localhost
   tasks:
     - name: Download archive

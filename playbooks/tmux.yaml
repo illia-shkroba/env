@@ -1,5 +1,7 @@
 ---
 - name: tmux
+  tags:
+    - disabled
   hosts: localhost
   tasks:
     - name: Clone
