@@ -1,0 +1,55 @@
+---
+- name: nerd-dictation
+  hosts: localhost
+  vars:
+    config_home_path: "{{ lookup('ansible.builtin.env', 'XDG_CONFIG_HOME', default=[lookup('ansible.builtin.env', 'HOME'), '.config'] | path_join) }}"
+    nerd_dictation_dir: "{{ [config_home_path, 'nerd-dictation'] | path_join }}"
+    vosk_model_version: 'vosk-model-small-en-us-0.15'
+  tasks:
+    - name: Clone
+      ansible.builtin.git:
+        repo: 'https://github.com/ideasman42/nerd-dictation.git'
+        dest: "{{ [distfiles_dir, 'nerd-dictation'] | path_join }}"
+        single_branch: true
+        version: "{{ env_lock['nerd-dictation'] }}"
+
+    - name: Install Python dependencies
+      ansible.builtin.pip:
+        name:
+          - vosk
+        state: present
+
+    - name: Install script
+      ansible.builtin.copy:
+        src: "{{ [distfiles_dir, 'nerd-dictation', 'nerd-dictation'] | path_join }}"
+        dest: "{{ ['/', 'usr', 'local', 'bin'] | path_join }}"
+        mode: 'u=rwx,g=rx,o=rx'
+      become: true
+
+    - name: Create config directory
+      ansible.builtin.file:
+        path: "{{ nerd_dictation_dir }}"
+        state: directory
+        mode: '0755'
+
+    - name: Download and extract Vosk model
+      ansible.builtin.unarchive:
+        src: "https://alphacephei.com/vosk/models/{{ vosk_model_version }}.zip"
+        dest: "{{ nerd_dictation_dir }}"
+        remote_src: true
+        creates: "{{ [nerd_dictation_dir, vosk_model_version] | path_join }}"
+
+    - name: Rename Vosk model directory to `model`
+      ansible.builtin.command:
+        argv:
+          - mv
+          - "{{ [nerd_dictation_dir, vosk_model_version] | path_join }}"
+          - "{{ [nerd_dictation_dir, 'model'] | path_join }}"
+        creates: "{{ [nerd_dictation_dir, 'model'] | path_join }}"
+
+    - name: Start and enable `pipewire-pulse` systemd service
+      ansible.builtin.systemd_service:
+        name: pipewire-pulse
+        state: started
+        enabled: true
+        scope: user

@@ -19,6 +19,7 @@
 {"name":"jq","commit":"88e83408f23cb9d8357fa279724e6014b39becb5"}
 {"name":"libevent","commit":"07893512d44d25392ddad56a511e613ce364b89a"}
 {"name":"neovim","commit":"6be9459d35f934d53c5a801e8f9b6369f47958c0"}
+{"name":"nerd-dictation","commit":"41f372789c640e01bb6650339a78312661530843"}
 {"name":"pass","commit":"3ca13cd8882cae4083c1c478858adbf2e82dd037"}
 {"name":"ripgrep","commit":"82313cf95849bfe425109ad9506a52154879b1b1"}
 {"name":"starship","commit":"11112302892c1c0e841d49764edbde789cfa8b48"}
