@@ -1,5 +1,7 @@
 ---
 - name: xz
+  tags:
+    - disabled
   hosts: localhost
   tasks:
     - name: Clone

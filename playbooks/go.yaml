@@ -1,5 +1,7 @@
 ---
 - name: go
+  tags:
+    - disabled
   hosts: localhost
   tasks:
     - name: Clone

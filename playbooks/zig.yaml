@@ -1,5 +1,7 @@
 ---
 - name: zig
+  tags:
+    - disabled
   hosts: localhost
   tasks:
     - name: Clone
