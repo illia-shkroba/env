@@ -1,7 +1,5 @@
 ---
 - name: tmux
-  tags:
-    - disabled
   hosts: localhost
   tasks:
     - name: Clone
@@ -18,7 +16,10 @@
 
     - name: Configure
       ansible.builtin.command:
-        cmd: ./configure
+        argv:
+          - ./configure
+          - "LIBEVENT_CORE_CFLAGS=-I{{ [distfiles_dir, 'libevent', 'include'] | path_join }} -I{{ [distfiles_dir, 'libevent', 'build', 'include'] | path_join }}"
+          - "LIBEVENT_CORE_LIBS={{ [distfiles_dir, 'libevent', 'build', 'lib', 'libevent_core.a'] | path_join }}"
         chdir: "{{ [distfiles_dir, 'tmux'] | path_join }}"
 
     - name: Build
