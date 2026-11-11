@@ -1,7 +1,5 @@
 ---
 - name: libevent
-  tags:
-    - disabled
   hosts: localhost
   tasks:
     - name: Clone
@@ -30,14 +28,3 @@
     - name: Build
       community.general.make:
         chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
-
-    - name: Verify built artifacts
-      community.general.make:
-        target: verify
-        chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
-
-    - name: Install
-      community.general.make:
-        target: install
-        chdir: "{{ [distfiles_dir, 'libevent', 'build'] | path_join }}"
-      become: true
